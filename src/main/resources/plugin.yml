@@ -1,0 +1,4 @@
+name: Plugin
+main: org.kitteh.tenjava.Thing
+author: mbaxter
+version: '${project.version}'
