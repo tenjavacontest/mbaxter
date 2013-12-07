@@ -1,4 +1,4 @@
-name: Plugin
-main: org.kitteh.tenjava.Thing
+name: mbaxter tenjava
+main: org.kitteh.tenjava.CatPlugin
 author: mbaxter
 version: '${project.version}'

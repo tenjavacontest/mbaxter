@@ -17,12 +17,9 @@ package org.kitteh.tenjava;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-//TODO: win competition
-public class Thing extends JavaPlugin {
-    /*
-     *               SUCH COMMENT BLOCK
-     *
-     *    SO NOT COMPILED
-     *                          WOW
-     */
+public class CatPlugin extends JavaPlugin {
+    @Override
+    public void onEnable() {
+        this.getLogger().info("CAT PLUGIN");
+    }
 }

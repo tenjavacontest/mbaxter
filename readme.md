@@ -1,3 +1,6 @@
+I REQUIRE CRAFTBUKKIT 1.7
+=========================
+
 mbaxter's ten.java contribution
 -------------------------------
 
