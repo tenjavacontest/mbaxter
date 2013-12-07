@@ -15,11 +15,29 @@
  */
 package org.kitteh.tenjava;
 
+import java.util.logging.Level;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CatPlugin extends JavaPlugin {
+    private CatPacketHax hax;
+
+    @Override
+    public void onDisable() {
+        if (this.hax != null) {
+            this.hax.onDisable();
+        }
+    }
+
     @Override
     public void onEnable() {
-        this.getLogger().info("CAT PLUGIN");
+        this.getLogger().info("CAT PLUGIN CAT PLUGIN");
+        try {
+            this.hax = new CatPacketHax(this);
+        } catch (final Exception e) {
+            this.getLogger().log(Level.SEVERE, "Could not start up!", e);
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
     }
 }
