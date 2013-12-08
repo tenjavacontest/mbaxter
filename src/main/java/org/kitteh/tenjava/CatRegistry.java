@@ -23,8 +23,11 @@ import java.util.Map;
 import java.util.Set;
 
 import net.minecraft.server.v1_7_R1.Packet;
+import net.minecraft.server.v1_7_R1.PacketPlayOutEntityTeleport;
 import net.minecraft.server.v1_7_R1.PacketPlayOutEntityVelocity;
 import net.minecraft.server.v1_7_R1.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_7_R1.PacketPlayOutRelEntityMove;
+import net.minecraft.server.v1_7_R1.PacketPlayOutRelEntityMoveLook;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -44,7 +47,33 @@ public enum CatRegistry {
             this.map("c", CatTracks.MOT_Y);
             this.map("d", CatTracks.MOT_Z);
         }
-    };
+    },
+    MOVE(PacketPlayOutRelEntityMove.class) {
+        {
+            this.map("a", CatTracks.ENTITY_ID);
+            this.map("b", CatTracks.X);
+            this.map("c", CatTracks.Y);
+            this.map("d", CatTracks.Z);
+        }
+    },
+    MOVELOOK(PacketPlayOutRelEntityMoveLook.class) {
+        {
+            this.map("a", CatTracks.ENTITY_ID);
+            this.map("b", CatTracks.X);
+            this.map("c", CatTracks.Y);
+            this.map("d", CatTracks.Z);
+        }
+    },
+    TELEPORT(PacketPlayOutEntityTeleport.class) {
+        {
+            this.map("a", CatTracks.ENTITY_ID);
+            this.map("b", CatTracks.X);
+            this.map("c", CatTracks.Y);
+            this.map("d", CatTracks.Z);
+        }
+    },
+
+    ;
 
     private static Map<Class<? extends Packet>, CatRegistry> byClass;
     private static Set<Integer> trackedEntID = new HashSet<Integer>();
@@ -86,6 +115,7 @@ public enum CatRegistry {
         builder.append('}');
         return builder.toString();
     }
+
     static void track(int ID) {
         CatRegistry.trackedEntID.add(ID);
     }
@@ -103,12 +133,19 @@ public enum CatRegistry {
     }
 
     protected void map(String fieldName, CatTracks track) {
+        map(fieldName, track, this.clazz);
+    }
+
+    protected void map(String fieldName, CatTracks track, Class<?> clazz) {
         try {
-            final Field field = this.clazz.getDeclaredField(fieldName);
+            final Field field = clazz.getDeclaredField(fieldName);
             field.setAccessible(true);
             this.mapping.put(track, field);
-        } catch (final Exception e) {
-            e.printStackTrace();
+        } catch (final NoSuchFieldException e) {
+            Class<?> sup = clazz.getSuperclass();
+            if (!sup.equals(Object.class)) {
+                this.map(fieldName, track, sup);
+            }
         }
     }
 
