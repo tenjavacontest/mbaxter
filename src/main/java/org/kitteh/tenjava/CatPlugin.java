@@ -39,5 +39,9 @@ public class CatPlugin extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
+        CatCommandExecutor exec = new CatCommandExecutor();
+        this.getCommand("track").setExecutor(exec);
+        this.getCommand("untrack").setExecutor(exec);
+        this.getCommand("getid").setExecutor(exec);
     }
 }
