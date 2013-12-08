@@ -1,4 +1,4 @@
-I REQUIRE CRAFTBUKKIT 1.7
+I REQUIRE CRAFTBUKKIT 1.7 AND I'M NOT FINISHING ON TIME
 =========================
 
 mbaxter's ten.java contribution
